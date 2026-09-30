@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L'Atelier — répertoire de sites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14161b;--panel:#1b1e25;--panel-2:#20242d;--ink:#f4f1ea;--muted:#9a9fae;--accent:#d9a441;--teal:#5fae9d;--danger:#c1554a;--border:rgba(244,241,234,.09);--border-strong:rgba(244,241,234,.18);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="dark"]){}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.display{font-family:'Fraunces',Georgia,serif}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px}
+.top{padding:56px 0 40px;border-bottom:1px solid var(--border)}
+.top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.wordmark{font-size:.8rem;letter-spacing:.14em;color:var(--accent);font-weight:500;margin-bottom:20px}
+h1.hero{font-size:clamp(2rem,4.2vw,3.1rem);font-weight:500;font-style:italic;line-height:1.15;max-width:680px;margin:0 0 14px}
+.hero-sub{color:var(--muted);font-size:1rem;max-width:480px;line-height:1.55;margin:0}
+.stat{text-align:right;flex-shrink:0}
+.stat .num{font-family:'Fraunces',Georgia,serif;font-size:2.6rem;font-weight:500;line-height:1;color:var(--accent)}
+.stat .lbl{color:var(--muted);font-size:.78rem;margin-top:4px}
+.filters{display:flex;gap:8px;padding:26px 0;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-family:inherit;font-size:.83rem;padding:7px 15px;border-radius:999px;cursor:pointer;transition:all .2s ease;white-space:nowrap}
+.chip:hover{border-color:var(--accent);color:var(--ink)}
+.chip.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:22px;padding-bottom:100px}
+.card{position:relative;background:var(--panel);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .25s ease,transform .25s ease;display:flex;flex-direction:column}
+.card:hover{border-color:var(--border-strong);transform:translateY(-3px)}
+.card-link{text-decoration:none;color:inherit;display:flex;flex-direction:column;flex:1}
+.thumb{aspect-ratio:4/3;width:100%;background:var(--panel-2);overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.card:hover .thumb img{transform:scale(1.04)}
+.thumb.mono{display:flex;align-items:center;justify-content:center}
+.thumb.mono span{font-family:'Fraunces',Georgia,serif;font-size:3.4rem;font-weight:500;color:rgba(244,241,234,.85)}
+.card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-name{font-size:1.12rem;font-weight:500;line-height:1.3}
+.card-desc{color:var(--muted);font-size:.85rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.card-meta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.card-tag{display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--muted)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--teal)}
+.go{color:var(--muted);transition:transform .2s ease,color .2s ease}
+.card:hover .go{transform:translate(2px,-2px);color:var(--accent)}
+.card-admin-bar{position:absolute;top:10px;right:10px;display:flex;gap:6px;opacity:0;transition:opacity .2s;z-index:3}
+.card:hover .card-admin-bar,.touch .card-admin-bar{opacity:1}
+.icon-mini{width:30px;height:30px;border-radius:50%;background:rgba(20,22,27,.85);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem}
+.icon-mini:hover{background:var(--accent);color:#1b1206;border-color:var(--accent)}
+.icon-mini.del:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.empty{grid-column:1/-1;border:1px dashed var(--border-strong);border-radius:6px;padding:70px 20px;text-align:center}
+.empty p.display{font-size:1.3rem;font-style:italic;margin:0 0 8px}
+.empty p.small{color:var(--muted);font-size:.88rem;margin:0 0 18px}
+.btn{font-family:inherit;font-size:.86rem;font-weight:500;padding:11px 20px;border-radius:5px;border:1px solid transparent;cursor:pointer;transition:all .2s ease;color:var(--ink);background:none}
+.btn-primary{background:var(--accent);color:#1b1206}
+.btn-primary:hover{background:#e8b556}
+.btn-primary:disabled{opacity:.6;cursor:wait}
+.btn-ghost{border-color:var(--border-strong)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.fab{position:fixed;right:28px;bottom:calc(28px + env(safe-area-inset-bottom,0px));display:none;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;background:var(--accent);color:#1b1206;font-family:inherit;font-weight:600;font-size:.88rem;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:20}
+footer{border-top:1px solid var(--border);padding:26px 0 60px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.78rem}
+.admin-trigger{background:none;border:none;color:var(--muted);opacity:.35;cursor:pointer;font-size:1.1rem;padding:4px 8px}
+.admin-trigger:hover{opacity:1;color:var(--accent)}
+.admin-pill{display:flex;align-items:center;gap:10px}
+.dot-live{width:6px;height:6px;border-radius:50%;background:#6fbf7a}
+.admin-pill button{background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:.78rem;padding:0}
+.overlay{position:fixed;inset:0;background:rgba(10,11,14,.72);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.overlay.show{opacity:1;pointer-events:all}
+.modal{background:var(--panel);border:1px solid var(--border-strong);border-radius:8px;width:100%;padding:32px}
+.modal.small{max-width:360px}
+.modal.wide{max-width:520px;max-height:88vh;overflow-y:auto}
+.modal h2{font-family:'Fraunces',Georgia,serif;font-weight:500;font-style:italic;font-size:1.5rem;margin:0 0 6px}
+.hint{color:var(--muted);font-size:.83rem;margin:0 0 22px}
+label{display:block;font-size:.78rem;color:var(--muted);margin:16px 0 6px}
+label:first-of-type{margin-top:0}
+input[type=text],input[type=url],input[type=password],textarea{width:100%;background:var(--panel-2);border:1px solid var(--border-strong);border-radius:5px;padding:11px 13px;color:var(--ink);font-family:inherit;font-size:.92rem}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;min-height:64px}
+.file-row{display:flex;align-items:center;gap:14px}
+.file-preview{width:64px;height:64px;border-radius:5px;background:var(--panel-2);border:1px solid var(--border-strong);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.7rem;text-align:center}
+.file-preview img{width:100%;height:100%;object-fit:cover}
+.file-input-btn{position:relative;overflow:hidden;display:inline-block}
+.file-input-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:26px}
+.error-msg{color:var(--danger);font-size:.8rem;margin-top:10px;min-height:16px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--border-strong);padding:10px 18px;border-radius:6px;font-size:.85rem;z-index:200;display:none}
+@media(max-width:600px){.top-row{flex-direction:column}.stat{text-align:left}footer{flex-direction:column;gap:10px;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="top-row">
+    <div>
+      <div class="wordmark">L'ATELIER</div>
+      <h1 class="hero display">Tout ce que j'ai construit, réuni au même endroit.</h1>
+      <p class="hero-sub">Un répertoire vivant de mes sites et projets web, mis à jour au fil des créations.</p>
+    </div>
+    <div class="stat"><div class="num display" id="stat-count">0</div><div class="lbl">sites référencés</div></div>
+  </div></div>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+  <footer>
+    <span>© <span id="year"></span> L'Atelier — répertoire personnel.</span>
+    <span id="footer-admin-area"></span>
+  </footer>
+</div>
+<button class="fab" id="fab-add">＋ Ajouter un site</button>
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="login-overlay"><div class="modal small">
+  <h2>Espace admin</h2><p class="hint">Connecte-toi pour gérer le répertoire.</p>
+  <label for="login-pass">Mot de passe</label>
+  <input type="password" id="login-pass" placeholder="••••••••">
+  <div class="error-msg" id="login-error"></div>
+  <div class="modal-actions"><button class="btn btn-ghost" id="login-cancel">Annuler</button><button class="btn btn-primary" id="login-submit">Se connecter</button></div>
+</div></div>
+
+<div class="overlay" id="form-overlay"><div class="modal wide">
+  <h2 id="form-title">Nouveau site</h2>
+  <p class="hint">Le site sera enregistré dans le code de la page et visible partout.</p>
+  <label for="f-name">Nom du site</label><input type="text" id="f-name" placeholder="ex. Le Bureau des Excuses">
+  <label for="f-url">Lien du site</label><input type="url" id="f-url" placeholder="https://...">
+  <label for="f-desc">Description courte</label><textarea id="f-desc" placeholder="En une phrase, à quoi sert ce site ?"></textarea>
+  <label for="f-cat">Catégorie</label><input type="text" id="f-cat" placeholder="ex. Perso, Client, Expérience...">
+  <label>Photo</label>
+  <div class="file-row"><div class="file-preview" id="f-preview">aucune image</div>
+    <div class="file-input-btn btn btn-ghost">Choisir une image<input type="file" id="f-file" accept="image/*"></div></div>
+  <div class="error-msg" id="form-error"></div>
+  <div class="modal-actions"><button class="btn btn-ghost" id="form-cancel">Annuler</button><button class="btn btn-primary" id="form-submit">Enregistrer</button></div>
+</div></div>
+
+<!-- DONNÉES : les sites sont stockés ici, dans le code -->
+<script id="sites-data" type="application/json">[]</script>
+
+<script>
+// Copie propre du code source (avant toute modification du DOM), réutilisée pour republier la page
+const SOURCE = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+const ADMIN_PASSWORD = "thethe du 44"; // change ce mot de passe ici
+let sites = [];
+try{ sites = JSON.parse(document.getElementById('sites-data').textContent) || []; }catch(e){}
+let isAdmin = false, activeFilter = "Tous", editingId = null, pendingImage = null, saving = false;
+try{ isAdmin = sessionStorage.getItem('atelier-admin') === '1'; }catch(e){}
+const $ = id => document.getElementById(id);
+$('year').textContent = new Date().getFullYear();
+
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(()=>t.style.display='none',3500); }
+
+// ---- Sauvegarde : republie la page avec les données intégrées au code ----
+async function saveSites(){
+  const json = JSON.stringify(sites).replace(/</g,'\\u003c');
+  const html = SOURCE.replace(/(<script id="sites-data" type="application\/json">)[\s\S]*?(<\/script>)/, (m,a,b)=>a+json+b);
+  try{
+    const artifact = await claude.use("artifact");
+    if(!artifact) throw new Error("absent");
+    await artifact.publish(html); // la page se recharge sur la nouvelle version
+    return true;
+  }catch(e){
+    if(e && e.code === 'conflict') return true;
+    toast("Enregistrement impossible : ouvre la page depuis ton compte propriétaire.");
+    return false;
+  }
+}
+
+// ---- Rendu ----
+const esc = s => { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; };
+const safeUrl = u => /^https?:\/\//i.test(u||'') ? u : '#';
+function monogramColor(n){ let h=0; for(let i=0;i<n.length;i++) h=n.charCodeAt(i)+((h<<5)-h); return `hsl(${Math.abs(h)%360},38%,22%)`; }
+
+function renderFilters(){
+  const el=$('filters'); el.innerHTML="";
+  ["Tous",...new Set(sites.map(s=>s.category).filter(Boolean))].forEach(cat=>{
+    const b=document.createElement('button'); b.className='chip'+(cat===activeFilter?' active':''); b.textContent=cat;
+    b.onclick=()=>{activeFilter=cat;render();}; el.appendChild(b);
+  });
+}
+function renderGrid(){
+  const grid=$('grid'), list=activeFilter==="Tous"?sites:sites.filter(s=>s.category===activeFilter);
+  $('stat-count').textContent=sites.length;
+  if(!list.length){
+    grid.innerHTML=`<div class="empty"><p class="display">Rien à afficher pour l'instant.</p><p class="small">${isAdmin?"Ajoute ton premier site pour commencer le répertoire.":"Revenez bientôt, de nouveaux projets arrivent."}</p>${isAdmin?'<button class="btn btn-primary" id="empty-add">＋ Ajouter un site</button>':''}</div>`;
+    if($('empty-add')) $('empty-add').onclick=openAddForm;
+    return;
+  }
+  grid.innerHTML="";
+  list.forEach(site=>{
+    const card=document.createElement('div'); card.className='card';
+    const name=site.name||'Sans titre';
+    const thumb=site.image?`<div class="thumb"><img src="${esc(site.image)}" alt=""></div>`:`<div class="thumb mono" style="background:${monogramColor(name)}"><span>${esc(name.trim().charAt(0).toUpperCase())}</span></div>`;
+    card.innerHTML=`${isAdmin?`<div class="card-admin-bar"><div class="icon-mini edit" title="Modifier">✎</div><div class="icon-mini del" title="Supprimer">✕</div></div>`:''}
+      <a class="card-link" href="${esc(safeUrl(site.url))}" target="_blank" rel="noopener">${thumb}
+      <div class="card-body"><div class="card-name display">${esc(name)}</div><div class="card-desc">${esc(site.description||'')}</div>
+      <div class="card-meta"><div class="card-tag"><span class="dot"></span>${esc(site.category||'Non classé')}</div><div class="go">↗</div></div></div></a>`;
+    if(isAdmin){
+      card.querySelector('.edit').onclick=()=>openEditForm(site.id);
+      card.querySelector('.del').onclick=()=>deleteSite(site.id);
+    }
+    grid.appendChild(card);
+  });
+}
+function renderFooterAdmin(){
+  const a=$('footer-admin-area');
+  if(isAdmin){
+    a.innerHTML=`<span class="admin-pill"><span class="dot-live"></span>Mode admin actif<button id="logout-btn">se déconnecter</button></span>`;
+    $('logout-btn').onclick=()=>{isAdmin=false;try{sessionStorage.removeItem('atelier-admin')}catch(e){}render();};
+  }else{
+    a.innerHTML=`<button class="admin-trigger" id="admin-trigger" title="admin">•</button>`;
+    $('admin-trigger').onclick=openLogin;
+  }
+}
+function render(){ renderFilters(); renderGrid(); $('fab-add').style.display=isAdmin?'flex':'none'; renderFooterAdmin(); }
+
+// ---- Login ----
+function openLogin(){ $('login-pass').value=""; $('login-error').textContent=""; $('login-overlay').classList.add('show'); setTimeout(()=>$('login-pass').focus(),50); }
+function closeLogin(){ $('login-overlay').classList.remove('show'); }
+$('login-cancel').onclick=closeLogin;
+$('login-submit').onclick=attemptLogin;
+$('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')attemptLogin();});
+function attemptLogin(){
+  if($('login-pass').value===ADMIN_PASSWORD){ isAdmin=true; try{sessionStorage.setItem('atelier-admin','1')}catch(e){} closeLogin(); render(); }
+  else $('login-error').textContent="Mot de passe incorrect.";
+}
+if(location.hash==='#admin') window.addEventListener('load',openLogin);
+
+// ---- Formulaire ----
+function fillForm(s){
+  $('f-name').value=s.name||""; $('f-url').value=s.url||""; $('f-desc').value=s.description||""; $('f-cat').value=s.category||"";
+  pendingImage=s.image||null; $('f-preview').innerHTML=pendingImage?`<img src="${esc(pendingImage)}">`:"aucune image";
+  $('form-error').textContent=""; $('form-overlay').classList.add('show');
+}
+function openAddForm(){ editingId=null; $('form-title').textContent="Nouveau site"; fillForm({}); }
+function openEditForm(id){ const s=sites.find(x=>x.id===id); if(!s)return; editingId=id; $('form-title').textContent="Modifier le site"; fillForm(s); }
+function closeForm(){ $('form-overlay').classList.remove('show'); }
+$('fab-add').onclick=openAddForm;
+$('form-cancel').onclick=closeForm;
+
+$('f-file').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      const sc=Math.min(1,640/img.width), c=document.createElement('canvas');
+      c.width=img.width*sc; c.height=img.height*sc;
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      pendingImage=c.toDataURL('image/jpeg',.8);
+      $('f-preview').innerHTML=`<img src="${pendingImage}">`;
+    };
+    img.src=ev.target.result;
+  };
+  r.readAsDataURL(file);
+});
+
+$('form-submit').onclick=async()=>{
+  if(saving)return;
+  const name=$('f-name').value.trim(), url=$('f-url').value.trim(), description=$('f-desc').value.trim(), category=$('f-cat').value.trim();
+  if(!name||!url){ $('form-error').textContent="Le nom et le lien du site sont obligatoires."; return; }
+  if(!/^https?:\/\//i.test(url)){ $('form-error').textContent="Le lien doit commencer par http:// ou https://"; return; }
+  if(editingId) Object.assign(sites.find(s=>s.id===editingId),{name,url,description,category,image:pendingImage});
+  else sites.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),name,url,description,category,image:pendingImage});
+  saving=true; $('form-submit').disabled=true; $('form-submit').textContent="Enregistrement…";
+  const ok=await saveSites();
+  saving=false; $('form-submit').disabled=false; $('form-submit').textContent="Enregistrer";
+  if(ok) closeForm(); render();
+};
+
+async function deleteSite(id){
+  if(!confirm("Supprimer ce site du répertoire ?"))return;
+  sites=sites.filter(s=>s.id!==id);
+  render();
+  await saveSites();
+}
+
+render();
+</script>
+</body>
+</html>
